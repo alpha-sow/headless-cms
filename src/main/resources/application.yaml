@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: Headless CMS
+  datasource:
+    url: jdbc:postgresql://localhost:5432/headless-cms
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+      schema-locations: classpath:schema.sql
+
+gg:
+  jte:
+    templateLocation: src/main/frontend
+    development-mode: true
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
+springdoc:
+  swagger-ui:
+    path: /docs
