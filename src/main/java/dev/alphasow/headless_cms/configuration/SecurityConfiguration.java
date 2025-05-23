@@ -72,12 +72,10 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/dashboard", true)
-                )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
-                .httpBasic(withDefaults())
+                .httpBasic(auth -> auth.authenticationEntryPoint(
+                        (request, response, authException) -> response.sendError(401)
+                ))
                 .build();
     }
 
