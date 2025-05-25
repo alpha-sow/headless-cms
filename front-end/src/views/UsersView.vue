@@ -2,25 +2,16 @@
 import { h } from "vue";
 import { ListTile } from "@/components/ui/list-tile";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import DataTable from "@/components/DataTable.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { useVueTable, getCoreRowModel, FlexRender } from "@tanstack/vue-table";
 import type { UserInfo } from "@/models/UserInfo";
+import { useQuery } from "@tanstack/vue-query";
+import { fetchAllUsers } from "@/services/UserService";
 
-const data: UserInfo[] = [
-  {
-    username: "admin",
-    active: true,
-    roles: "admin",
-  },
-];
+const { data } = useQuery({
+  queryKey: ["users"],
+  queryFn: fetchAllUsers,
+});
 
 const columns: ColumnDef<UserInfo>[] = [
   {
@@ -39,12 +30,6 @@ const columns: ColumnDef<UserInfo>[] = [
     cell: ({ row }: { row: any }) => h("div", row.getValue("roles")),
   },
 ];
-
-const table = useVueTable({
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-});
 </script>
 <template>
   <div class="pr-4">
@@ -53,43 +38,6 @@ const table = useVueTable({
         <Button> Create members</Button>
       </template>
     </ListTile>
-    <div class="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow
-            v-for="headerGroup in table.getHeaderGroups()"
-            :key="headerGroup.id"
-          >
-            <TableHead v-for="header in headerGroup.headers" :key="header.id">
-              <FlexRender
-                v-if="!header.isPlaceholder"
-                :render="header.column.columnDef.header"
-                :props="header.getContext()"
-              />
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <template v-if="table.getRowModel().rows?.length">
-            <template v-for="row in table.getRowModel().rows" :key="row.id">
-              <TableRow>
-                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                  <FlexRender
-                    :render="cell.column.columnDef.cell"
-                    :props="cell.getContext()"
-                  />
-                </TableCell>
-              </TableRow>
-            </template>
-          </template>
-
-          <TableRow v-else>
-            <TableCell :colspan="columns.length" class="h-24 text-center">
-              No results.
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+    <DataTable v-if="data" :data="data.data" :columns="columns" />
   </div>
 </template>
