@@ -1,77 +1,27 @@
 <script setup lang="ts">
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
   SidebarHeader,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
+import type { SidebarData } from "@/views/utils";
+import { useRouter } from "vue-router";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+const router = useRouter();
 
-import { LogOut, ChevronsUpDown, Folder, CircleUser } from "lucide-vue-next";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const data = {
-  versions: ["0.0.1"],
-  name: "Headless UI",
-  plan: "",
-  navMain: [
-    {
-      title: "Pages",
-      url: "/pages",
-      icon: Folder,
-      isActive: true,
-    },
-  ],
-};
-
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
-
-const emit = defineEmits<{
-  (e: "logout"): void;
+defineProps<{
+  data: SidebarData;
 }>();
+
+function isActive(path: string): boolean {
+  return router.currentRoute.value.path === path;
+}
 </script>
 
 <template>
@@ -79,16 +29,17 @@ const emit = defineEmits<{
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton
-            click=""
-            size="lg"
-            class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-          >
-            <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-semibold">{{ data.name }}</span>
-              <span class="truncate text-xs">{{ data.plan }}</span>
-            </div>
-          </SidebarMenuButton>
+          <slot name="header">
+            <SidebarMenuButton
+              click=""
+              size="lg"
+              class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">{{ data.name }}</span>
+              </div>
+            </SidebarMenuButton>
+          </slot>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
@@ -96,12 +47,17 @@ const emit = defineEmits<{
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="item in items" :key="item.title">
-              <SidebarMenuButton asChild>
-                <a :href="item.url">
-                  <component :is="item.icon" />
-                  <span>{{ item.title }}</span>
-                </a>
+            <SidebarMenuItem v-for="item in data.navMain" :key="item.title">
+              <SidebarMenuButton
+                @click="() => router.push(item.url)"
+                :class="{
+                  'bg-sidebar-accent text-sidebar-accent-foreground': isActive(
+                    item.url
+                  ),
+                }"
+              >
+                <component :is="item.icon" />
+                {{ item.title }}
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -111,54 +67,7 @@ const emit = defineEmits<{
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger as-child>
-              <SidebarMenuButton
-                size="lg"
-                class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              >
-                <Avatar class="h-8 w-8 rounded-lg">
-                  <AvatarImage src="" alt="username" />
-                  <AvatarFallback class="rounded-lg">
-                    <CircleUser />
-                  </AvatarFallback>
-                </Avatar>
-                <div class="grid flex-1 text-left text-sm leading-tight">
-                  <span class="truncate font-semibold">username</span>
-                  <span class="truncate text-xs">email</span>
-                </div>
-                <ChevronsUpDown class="ml-auto size-4" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              class="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              side="bottom"
-              align="end"
-              :side-offset="4"
-            >
-              <DropdownMenuLabel class="p-0 font-normal">
-                <div
-                  class="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
-                >
-                  <Avatar class="h-8 w-8 rounded-lg">
-                    <AvatarImage src="" alt="username" />
-                    <AvatarFallback class="rounded-lg">
-                      <CircleUser />
-                    </AvatarFallback>
-                  </Avatar>
-                  <div class="grid flex-1 text-left text-sm leading-tight">
-                    <span class="truncate font-semibold">username</span>
-                    <span class="truncate text-xs">email</span>
-                  </div>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem @click="emit('logout')">
-                <LogOut class="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <slot name="footer"></slot>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarFooter>

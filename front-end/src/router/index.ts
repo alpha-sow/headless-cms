@@ -7,7 +7,7 @@ import {
 } from "vue-router";
 import { currentCredential } from "@/services/AuthService";
 
-import HomeView from "@/views/HomeView.vue";
+import HomePage from "@/views/HomePage.vue";
 import { setItem } from "@/services/LocalStorage";
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,9 +15,34 @@ const router: Router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: HomePage,
+      redirect: "/dashboard",
+      children: [
+        {
+          path: "dashboard",
+          component: () => import("@/views/DashboardView.vue"),
+          meta: { title: "Dashboard" },
+        },
+      ],
     },
-    { path: "/login", component: () => import("@/views/LoginView.vue") },
+    {
+      path: "/settings",
+      component: () => import("@/views/SettingsPage.vue"),
+      meta: { title: "Settings" },
+      redirect: "/settings/profile",
+      children: [
+        {
+          path: "profile",
+          component: () => import("@/views/ProfileView.vue"),
+          meta: { title: "Profile Settings" },
+        },
+      ],
+    },
+    {
+      path: "/login",
+      component: () => import("@/views/LoginPage.vue"),
+      meta: { title: "Login" },
+    },
   ],
 });
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useMutation } from "@tanstack/vue-query";
 import {
   Card,
@@ -8,13 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useAuthStore } from "@/stores/useAuthStore";
 import LoginForm from "@/components/LoginForm.vue";
-import { useAuthStore } from "@/stores/UseAuthStore";
-import User from "@/models/User";
+import type User from "@/models/User";
 
 const authStore = useAuthStore();
 
-const { isPending, isError, error, isSuccess, mutate } = useMutation({
+const { isPending, mutate } = useMutation({
   mutationFn: (user: User) =>
     authStore.signInWithUsernameAndPassword(user.username, user.password),
 });
