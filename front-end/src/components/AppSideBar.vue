@@ -49,12 +49,13 @@ function isActive(path: string): boolean {
           <SidebarMenu>
             <SidebarMenuItem v-for="item in data.navMain" :key="item.title">
               <SidebarMenuButton
-                @click="() => router.push(item.url)"
                 :class="{
                   'bg-sidebar-accent text-sidebar-accent-foreground': isActive(
                     item.url
                   ),
                 }"
+                @click="() => router.push(item.url)"
+                :tooltip="item.title"
               >
                 <component :is="item.icon" />
                 {{ item.title }}

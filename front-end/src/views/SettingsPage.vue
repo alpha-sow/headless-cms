@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import type { SidebarData } from "@/views/utils";
-import { CircleUser } from "lucide-vue-next";
+import { CircleUser, User } from "lucide-vue-next";
 import AppSideBar from "@/components/AppSideBar.vue";
 import AppNavbar from "@/components/AppNavbar.vue";
 import SidebarMenuButton from "@/components/ui/sidebar/SidebarMenuButton.vue";
@@ -21,6 +21,11 @@ const data: SidebarData = {
       title: "Profile",
       url: "/settings/profile",
       icon: CircleUser,
+    },
+    {
+      title: "Users",
+      url: "/settings/users",
+      icon: User,
     },
   ],
 };

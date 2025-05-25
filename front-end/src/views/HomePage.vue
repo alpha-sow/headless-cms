@@ -7,7 +7,7 @@ import AppNavbar from "@/components/AppNavbar.vue";
 import { Home, Settings } from "lucide-vue-next";
 import type { SidebarData } from "@/views/utils";
 import { useRouter } from "vue-router";
-import SidebarMenuButton from "@/components/ui/sidebar/SidebarMenuButton.vue";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
 
 const authStore = useAuthStore();
 

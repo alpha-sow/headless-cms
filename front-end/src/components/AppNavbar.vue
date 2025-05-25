@@ -11,8 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { LogOut, CircleUser } from "lucide-vue-next";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const mode = useColorMode();
 const emit = defineEmits<{
@@ -60,6 +62,10 @@ const emit = defineEmits<{
               </div>
             </div>
           </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem @click="router.push('/settings/profile')">
+            <span class="text-sm">Profile</span>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem @click="emit('logout')">
             <LogOut class="mr-2 h-4 w-4" />
