@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import { useAuthStore } from "@/stores/useAuthStore";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import type { SidebarData } from "@/views/utils";
 import { CircleUser, User } from "lucide-vue-next";
@@ -9,8 +8,9 @@ import AppNavbar from "@/components/AppNavbar.vue";
 import SidebarMenuButton from "@/components/ui/sidebar/SidebarMenuButton.vue";
 import { useRouter } from "vue-router";
 import { CircleArrowLeft } from "lucide-vue-next";
+import { useI18n } from "vue-i18n";
 
-const authStore = useAuthStore();
+const { t } = useI18n();
 
 const router = useRouter();
 
@@ -18,20 +18,17 @@ const data: SidebarData = {
   name: "Settings",
   navMain: [
     {
-      title: "Profile",
+      title: t("profile"),
       url: "/settings/profile",
       icon: CircleUser,
     },
     {
-      title: "Users",
+      title: t("users"),
       url: "/settings/users",
       icon: User,
     },
   ],
 };
-function logout(): void {
-  authStore.logout();
-}
 </script>
 
 <template>
@@ -42,12 +39,12 @@ function logout(): void {
         <template #header>
           <SidebarMenuButton @click="router.push('/dashboard')">
             <CircleArrowLeft />
-            Back
+            {{ t("back") }}
           </SidebarMenuButton>
         </template>
       </AppSideBar>
       <div class="flex flex-col w-full h-full">
-        <AppNavbar @logout="logout" />
+        <AppNavbar />
         <RouterView></RouterView>
       </div>
     </SidebarProvider>

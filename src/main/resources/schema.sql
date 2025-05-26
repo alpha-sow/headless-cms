@@ -1,13 +1,15 @@
 CREATE TABLE IF NOT EXISTS users (
-    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(100) NOT NULL,
     enabled BOOLEAN NOT NULL,
+    avatar VARCHAR(100),
+    phone VARCHAR(50),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS authorities (
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) PRIMARY KEY,
     authority VARCHAR(50) NOT NULL,
     FOREIGN KEY (username) REFERENCES users(username)
 );

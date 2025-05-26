@@ -1,7 +1,9 @@
-import { type Role } from "./Role";
+import type { UserAuthority } from "./UserAuthority";
 
 export type UserInfo = {
   username: string;
-  active: boolean;
-  roles: Role;
+  enabled: boolean;
+  avatar?: string;
+  phone?: string;
+  authorities: UserAuthority[];
 };

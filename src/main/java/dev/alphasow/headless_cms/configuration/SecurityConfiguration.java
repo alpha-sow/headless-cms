@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,6 +34,7 @@ import static org.springframework.security.config.Customizer.*;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
     final Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
@@ -68,7 +70,8 @@ public class SecurityConfiguration {
                                 "/docs",
                                 "/login",
                                 "/error",
-                                "/css/**"
+                                "/avatars/**",
+                                "/uploads/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

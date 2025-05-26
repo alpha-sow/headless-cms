@@ -33,13 +33,27 @@ const router: Router = createRouter({
       children: [
         {
           path: "profile",
-          component: () => import("@/views/ProfileView.vue"),
+          component: () => import("@/views/SettingsProfileView.vue"),
           meta: { title: "Profile Settings" },
         },
         {
           path: "users",
-          component: () => import("@/views/UsersView.vue"),
           meta: { title: "Users" },
+          component: () => import("@/views/UserPage.vue"),
+          redirect: "/settings/users",
+          children: [
+            {
+              path: "",
+              component: () => import("@/views/SettingsUsersView.vue"),
+              meta: { title: "Users List" },
+            },
+            {
+              path: ":username",
+              component: () => import("@/views/SettingsUsersDetailView.vue"),
+              meta: { title: "User Detail" },
+              props: true,
+            },
+          ],
         },
       ],
     },

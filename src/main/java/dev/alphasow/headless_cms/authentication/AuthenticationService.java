@@ -1,5 +1,10 @@
-package dev.alphasow.headless_cms.service;
+package dev.alphasow.headless_cms.authentication;
 
+import dev.alphasow.headless_cms.user.UserEntity;
+import dev.alphasow.headless_cms.user.UserDTO;
+import dev.alphasow.headless_cms.user.UserMapper;
+import dev.alphasow.headless_cms.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -12,14 +17,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 @Service
-public class TokenService {
+@AllArgsConstructor
+public class AuthenticationService {
     
     private final JwtEncoder encoder;
-
-
-    public TokenService(JwtEncoder jwtEncoder) {
-        this.encoder = jwtEncoder;
-    }
+    private final UserRepository userRepository;
     
     public String generateToken(Authentication authentication){
         Instant now = Instant.now();
@@ -34,5 +36,10 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+    
+    public UserDTO authenticate(Authentication authentication){
+        final UserEntity user = userRepository.findById(authentication.getName()).orElse(null);
+        return UserMapper.instance.userDataToUserDto(user);
     }
 }

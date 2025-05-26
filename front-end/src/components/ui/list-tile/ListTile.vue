@@ -10,10 +10,14 @@ defineProps<{
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <slot name="leading" />
-        <h1 class="text-lg font-semibold">{{ title }}</h1>
+        <div>
+          <h1 class="text-lg text-muted-foreground font-semibold">
+            {{ title }}
+          </h1>
+          <p class="text-lg mt-1">{{ description }}</p>
+        </div>
       </div>
       <slot name="trailing" />
     </div>
-    <p class="text-sm text-muted-foreground mt-1">{{ description }}</p>
   </div>
 </template>

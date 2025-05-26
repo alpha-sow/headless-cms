@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Sun, Moon } from "lucide-vue-next";
 import { useColorMode } from "@vueuse/core";
-import Button from "@/components/ui/button/Button.vue";
+import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores/UseAuthStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,17 +14,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, CircleUser } from "lucide-vue-next";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const router = useRouter();
-
+const authStore = useAuthStore();
 const mode = useColorMode();
-const emit = defineEmits<{
-  (e: "logout"): void;
-}>();
 </script>
 
 <template>
-  <nav class="flex items-center justify-between h-16 mr-6">
+  <nav class="flex items-center justify-between h-10 mr-6">
     <div></div>
     <div class="flex items-center space-x-4">
       <Button
@@ -37,7 +38,11 @@ const emit = defineEmits<{
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Avatar class="h-8 w-8 rounded-lg">
-            <AvatarImage src="" alt="username" />
+            <AvatarImage
+              :src="authStore.user?.avatar ?? ''"
+              alt="username"
+              class="object-cover"
+            />
             <AvatarFallback class="rounded-lg">
               <CircleUser />
             </AvatarFallback>
@@ -52,24 +57,29 @@ const emit = defineEmits<{
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage src="" alt="username" />
+                <AvatarImage
+                  :src="authStore?.user?.avatar ?? ''"
+                  alt="username"
+                />
                 <AvatarFallback class="rounded-lg">
                   <CircleUser />
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">username</span>
+                <span class="truncate font-semibold">{{
+                  authStore.user?.username ?? "Guest"
+                }}</span>
               </div>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem @click="router.push('/settings/profile')">
-            <span class="text-sm">Profile</span>
+            <span class="text-sm">{{ t("profile") }}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="emit('logout')">
+          <DropdownMenuItem @click="authStore.logout">
             <LogOut class="mr-2 h-4 w-4" />
-            <span>Log out</span>
+            <span>{{ t("logout") }}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

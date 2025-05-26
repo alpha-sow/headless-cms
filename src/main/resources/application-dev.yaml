@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: Headless CMS
+  config:
+    activate:
+      on-profile: dev
+  web:
+    resources:
+      static-locations: file:uploads/
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/headless-cms
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+      schema-locations: classpath:schema.sql
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
+springdoc:
+  swagger-ui:
+    path: /docs

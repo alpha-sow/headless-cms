@@ -1,4 +1,4 @@
-package dev.alphasow.headless_cms.dto;
+package dev.alphasow.headless_cms.model;
 
 import lombok.Getter;
 import lombok.Setter;

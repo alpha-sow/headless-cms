@@ -9,14 +9,17 @@ import {
 } from "@/components/ui/table";
 import type { ColumnDef } from "@tanstack/vue-table";
 import { useVueTable, getCoreRowModel, FlexRender } from "@tanstack/vue-table";
+import type { PageResponse } from "@/models/PageResponse";
 
 const props = defineProps<{
-  data: T[];
+  data: PageResponse<T>;
   columns: ColumnDef<T>[];
 }>();
 
 const table = useVueTable({
-  data: props.data,
+  get data() {
+    return props.data.data;
+  },
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
 });
@@ -51,7 +54,6 @@ const table = useVueTable({
             </TableRow>
           </template>
         </template>
-
         <TableRow v-else>
           <TableCell :colspan="columns.length" class="h-24 text-center">
             No results.
