@@ -36,6 +36,6 @@ build/
 /jte-classes/
 
 
-!/src/main/frontend/node_modules/
-!/src/main/resources/certs/
-!/uploads/
+/src/main/frontend/node_modules/
+/src/main/resources/certs/
+/uploads/
