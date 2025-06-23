@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import java.util.List;
 import java.util.Set;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 
