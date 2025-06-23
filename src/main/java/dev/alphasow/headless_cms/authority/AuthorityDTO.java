@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class AuthorityDTO {
     private String username;
-    private String authority;
+    private AuthorityEnum authority;
 }

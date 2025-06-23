@@ -25,23 +25,21 @@ const data: SidebarData = {
 };
 </script>
 <template>
-  <div class="flex items-center justify-center h-screen">
-    <SidebarProvider>
-      <SidebarTrigger />
-      <AppSideBar :data="data">
-        <template #footer>
-          <SidebarMenuButton @click="router.push('/settings')">
-            <Settings /> {{ t("settings") }}
-          </SidebarMenuButton>
-          <h1 class="text-end text-xs py-4">
-            Version: {{ data.versions![0] }}
-          </h1>
-        </template>
-      </AppSideBar>
-      <div class="flex flex-col w-full h-full">
+  <SidebarProvider>
+    <AppSideBar :data="data">
+      <template #footer>
+        <SidebarMenuButton @click="router.push('/settings')">
+          <Settings /> {{ t("settings") }}
+        </SidebarMenuButton>
+        <h1 class="text-end text-xs py-4">Version: {{ data.versions![0] }}</h1>
+      </template>
+    </AppSideBar>
+    <main class="w-full p-4">
+      <div class="flex justify-between w-full">
+        <SidebarTrigger />
         <AppNavbar />
-        <RouterView></RouterView>
       </div>
-    </SidebarProvider>
-  </div>
+      <RouterView />
+    </main>
+  </SidebarProvider>
 </template>

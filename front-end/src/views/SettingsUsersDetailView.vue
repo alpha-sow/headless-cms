@@ -126,7 +126,7 @@ const updateAvatarMutation = useMutation({
 });
 </script>
 <template>
-  <div v-if="data" class="pr-4">
+  <div v-if="data">
     <ListTile title="">
       <template #leading>
         <Button variant="ghost" @click="$router.back()">

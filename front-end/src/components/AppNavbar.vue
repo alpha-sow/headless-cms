@@ -24,9 +24,9 @@ const mode = useColorMode();
 </script>
 
 <template>
-  <nav class="flex items-center justify-between h-10 mr-6">
+  <nav class="flex justify-between h-10">
     <div></div>
-    <div class="flex items-center space-x-4">
+    <div class="flex space-x-4">
       <Button
         variant="ghost"
         size="icon"

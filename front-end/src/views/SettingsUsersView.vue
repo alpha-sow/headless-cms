@@ -147,7 +147,7 @@ function handleCreateMemberSubmit(values: any) {
 }
 </script>
 <template>
-  <div class="pr-4">
+  <div>
     <ListTile title="Users">
       <template #trailing>
         <CreateMembers @submit="handleCreateMemberSubmit" />

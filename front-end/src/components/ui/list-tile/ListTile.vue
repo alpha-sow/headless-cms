@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="p-4">
+  <div class="py-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <slot name="leading" />
