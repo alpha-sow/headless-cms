@@ -81,7 +81,7 @@ const updateAvatarMutation = useMutation({
 </script>
 
 <template>
-  <div v-if="data" class="pr-4">
+  <div v-if="data">
     <ListTile :title="t('profile_information')" />
     <ListTile title="">
       <template #leading>

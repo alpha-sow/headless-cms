@@ -32,21 +32,21 @@ const data: SidebarData = {
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-screen">
-    <SidebarProvider>
-      <SidebarTrigger />
-      <AppSideBar :data="data">
-        <template #header>
-          <SidebarMenuButton @click="router.push('/dashboard')">
-            <CircleArrowLeft />
-            {{ t("back") }}
-          </SidebarMenuButton>
-        </template>
-      </AppSideBar>
-      <div class="flex flex-col w-full h-full">
+  <SidebarProvider>
+    <AppSideBar :data="data">
+      <template #header>
+        <SidebarMenuButton @click="router.push('/dashboard')">
+          <CircleArrowLeft />
+          {{ t("back") }}
+        </SidebarMenuButton>
+      </template>
+    </AppSideBar>
+    <main class="w-full p-4">
+      <div class="flex justify-between w-full">
+        <SidebarTrigger />
         <AppNavbar />
-        <RouterView></RouterView>
       </div>
-    </SidebarProvider>
-  </div>
+      <RouterView />
+    </main>
+  </SidebarProvider>
 </template>

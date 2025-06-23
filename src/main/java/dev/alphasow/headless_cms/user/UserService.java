@@ -21,9 +21,10 @@ public class UserService {
     final UserRepository userRepository;
     final PasswordEncoder encoder;
     final JdbcUserDetailsManager jdbcUserDetailsManager;
+    final UserMapper userMapper;
 
     PageResponse<UserDTO> findAll(Pageable pageable) {
-        return new PageResponse<>(UserMapper.instance.pageUserModelToPageUserDto(userRepository.findAll(pageable)));
+        return new PageResponse<>(userMapper.pageUserModelToPageUserDto(userRepository.findAll(pageable)));
     }
 
     public Optional<UserDTO> createUser(@NotNull UserDTO user) {
@@ -39,14 +40,14 @@ public class UserService {
         final UserEntity response = userRepository.findById(newUser.getUsername()).orElseThrow(
                 ()-> new UserNotFoundException("User not found")
         );
-        return Optional.ofNullable(UserMapper.instance.userDataToUserDto(response));
+        return Optional.ofNullable(userMapper.userDataToUserDto(response));
     }
     
     public Optional<UserDTO> findById(String id){
         final UserEntity user = userRepository.findById(id).orElseThrow(
                 ()-> new UserNotFoundException("User not found")
         );
-        return Optional.ofNullable(UserMapper.instance.userDataToUserDto(user));
+        return Optional.ofNullable(userMapper.userDataToUserDto(user));
     }
 
     public void deleteUser(String username) {
@@ -59,7 +60,7 @@ public class UserService {
         );
         user.setPhone(phone.getPhone());
         userRepository.save(user);
-        return UserMapper.instance.userDataToUserDto(user);
+        return userMapper.userDataToUserDto(user);
     }
 
     public UserDTO updateEnable(String username, UserEnabledDTO enable) {
@@ -68,7 +69,7 @@ public class UserService {
         );
         user.setEnabled(enable.isEnabled());
         userRepository.save(user);
-        return UserMapper.instance.userDataToUserDto(user);
+        return userMapper.userDataToUserDto(user);
     }
     
     public UserDTO updateAvatar(String username, String avatar){
@@ -77,6 +78,6 @@ public class UserService {
         );
         user.setAvatar(avatar);
         userRepository.save(user);
-        return UserMapper.instance.userDataToUserDto(user);
+        return userMapper.userDataToUserDto(user);
     }
 }   
