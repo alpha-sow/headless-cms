@@ -118,7 +118,10 @@ const columns: ColumnDef<UserInfo>[] = [
           DropdownMenuItem,
           {
             onClick: () => {
-              router.push("/settings/users/" + row.getValue("username"));
+              router.push({
+                name: "settingsUsersDetail",
+                params: { username: row.getValue("username") },
+              });
             },
           },
           () => t("edit")

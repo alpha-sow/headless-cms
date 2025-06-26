@@ -105,7 +105,7 @@ const updateAvatarMutation = useMutation({
                     <InputFile
                       id="avatarField"
                       v-bind="componentField"
-                      accept="image/png, image/jpeg"
+                      accept="image/png, image/jpeg, image/webp"
                     />
                     <p
                       class="mt-1 text-sm text-gray-500 dark:text-gray-300"

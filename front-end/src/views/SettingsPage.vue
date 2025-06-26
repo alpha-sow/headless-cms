@@ -2,9 +2,9 @@
 import { RouterView } from "vue-router";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import type { SidebarData } from "@/views/utils";
+import AppNavbar from "@/components/AppNavbar.vue";
 import { CircleUser, User } from "lucide-vue-next";
 import AppSideBar from "@/components/AppSideBar.vue";
-import AppNavbar from "@/components/AppNavbar.vue";
 import SidebarMenuButton from "@/components/ui/sidebar/SidebarMenuButton.vue";
 import { useRouter } from "vue-router";
 import { CircleArrowLeft } from "lucide-vue-next";
@@ -19,12 +19,12 @@ const data: SidebarData = {
   navMain: [
     {
       title: t("profile"),
-      url: "/settings/profile",
+      urlName: "settingsProfile",
       icon: CircleUser,
     },
     {
       title: t("users"),
-      url: "/settings/users",
+      urlName: "settingsUsersList",
       icon: User,
     },
   ],
@@ -35,18 +35,16 @@ const data: SidebarData = {
   <SidebarProvider>
     <AppSideBar :data="data">
       <template #header>
-        <SidebarMenuButton @click="router.push('/dashboard')">
+        <SidebarMenuButton @click="router.push({ name: 'root' })">
           <CircleArrowLeft />
           {{ t("back") }}
         </SidebarMenuButton>
       </template>
     </AppSideBar>
-    <main class="w-full p-4">
-      <div class="flex justify-between w-full">
-        <SidebarTrigger />
-        <AppNavbar />
-      </div>
-      <RouterView />
+    <SidebarTrigger class="fixed top-4 left-4" />
+    <main class="w-full">
+      <AppNavbar />
+      <RouterView class="p-4" />
     </main>
   </SidebarProvider>
 </template>

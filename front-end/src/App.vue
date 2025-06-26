@@ -6,7 +6,5 @@ import "vue-sonner/style.css";
 
 <template>
   <Toaster class="pointer-events-auto" />
-  <RouterView></RouterView>
+  <RouterView />
 </template>
-
-<style scoped></style>

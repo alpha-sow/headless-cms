@@ -1,9 +1,11 @@
+import type { Component } from "vue";
+
 export type SidebarData = {
   versions?: string[];
   name: string;
   navMain: {
     title: string;
-    url: string;
-    icon: any;
+    urlName: string;
+    icon: Component;
   }[];
 };

@@ -6,7 +6,6 @@ import {
   type RouteLocationNormalized,
 } from "vue-router";
 import { currentCredential } from "@/services/AuthService";
-
 import HomePage from "@/views/HomePage.vue";
 import { setItem } from "@/services/LocalStorage";
 const router: Router = createRouter({
@@ -14,12 +13,18 @@ const router: Router = createRouter({
   routes: [
     {
       path: "/",
+      name: "root",
+      redirect: "/home",
+    },
+    {
+      path: "/home",
       name: "home",
       component: HomePage,
-      redirect: "/dashboard",
+      redirect: "/home/dashboard",
       children: [
         {
           path: "dashboard",
+          name: "homeDashboard",
           component: () => import("@/views/DashboardView.vue"),
           meta: { title: "Dashboard" },
         },
@@ -27,28 +32,33 @@ const router: Router = createRouter({
     },
     {
       path: "/settings",
+      name: "settings",
       component: () => import("@/views/SettingsPage.vue"),
       meta: { title: "Settings" },
       redirect: "/settings/profile",
       children: [
         {
           path: "profile",
+          name: "settingsProfile",
           component: () => import("@/views/SettingsProfileView.vue"),
           meta: { title: "Profile Settings" },
         },
         {
           path: "users",
+          name: "settingsUsers",
           meta: { title: "Users" },
           component: () => import("@/views/UserPage.vue"),
           redirect: "/settings/users",
           children: [
             {
               path: "",
+              name: "settingsUsersList",
               component: () => import("@/views/SettingsUsersView.vue"),
               meta: { title: "Users List" },
             },
             {
               path: ":username",
+              name: "settingsUsersDetail",
               component: () => import("@/views/SettingsUsersDetailView.vue"),
               meta: { title: "User Detail" },
               props: true,

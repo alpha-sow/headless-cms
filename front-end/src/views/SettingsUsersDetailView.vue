@@ -129,7 +129,10 @@ const updateAvatarMutation = useMutation({
   <div v-if="data">
     <ListTile title="">
       <template #leading>
-        <Button variant="ghost" @click="$router.back()">
+        <Button
+          variant="ghost"
+          @click="$router.push({ name: 'settingsUsersList' })"
+        >
           <CircleArrowLeft class="w-5 h-5" />
           {{ t("back") }}
         </Button>

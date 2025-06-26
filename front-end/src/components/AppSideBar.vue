@@ -19,8 +19,8 @@ defineProps<{
   data: SidebarData;
 }>();
 
-function isActive(path: string): boolean {
-  return router.currentRoute.value.path === path;
+function isActive(name: string): boolean {
+  return router.currentRoute.value.name === name;
 }
 </script>
 
@@ -51,10 +51,10 @@ function isActive(path: string): boolean {
               <SidebarMenuButton
                 :class="{
                   'bg-sidebar-accent text-sidebar-accent-foreground': isActive(
-                    item.url
+                    item.urlName
                   ),
                 }"
-                @click="() => router.push(item.url)"
+                @click="() => router.push({ name: item.urlName })"
                 :tooltip="item.title"
               >
                 <component :is="item.icon" />

@@ -24,7 +24,9 @@ const mode = useColorMode();
 </script>
 
 <template>
-  <nav class="flex justify-between h-10">
+  <nav
+    class="flex justify-between p-2 sticky top-0 w-full z-10 backdrop-blur-md"
+  >
     <div></div>
     <div class="flex space-x-4">
       <Button
@@ -59,7 +61,7 @@ const mode = useColorMode();
               <Avatar class="h-8 w-8 rounded-lg">
                 <AvatarImage
                   :src="authStore?.user?.avatar ?? ''"
-                  alt="username"
+                  alt="userAvatar"
                 />
                 <AvatarFallback class="rounded-lg">
                   <CircleUser />
@@ -73,7 +75,7 @@ const mode = useColorMode();
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="router.push('/settings/profile')">
+          <DropdownMenuItem @click="router.push({ name: 'settingsProfile' })">
             <span class="text-sm">{{ t("profile") }}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

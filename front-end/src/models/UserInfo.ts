@@ -1,4 +1,4 @@
-import type { UserAuthority } from "./UserAuthority";
+import type { UserAuthority } from "@/models/UserAuthority";
 
 export type UserInfo = {
   username: string;

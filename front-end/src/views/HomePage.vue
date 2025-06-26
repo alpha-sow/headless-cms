@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import AppSideBar from "@/components/AppSideBar.vue";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AppNavbar from "@/components/AppNavbar.vue";
 import { Home, Settings } from "lucide-vue-next";
 import type { SidebarData } from "@/views/utils";
@@ -18,7 +18,7 @@ const data: SidebarData = {
   navMain: [
     {
       title: t("dashboard"),
-      url: "/dashboard",
+      urlName: "homeDashboard",
       icon: Home,
     },
   ],
@@ -28,18 +28,15 @@ const data: SidebarData = {
   <SidebarProvider>
     <AppSideBar :data="data">
       <template #footer>
-        <SidebarMenuButton @click="router.push('/settings')">
+        <SidebarMenuButton @click="router.push({ name: 'settings' })">
           <Settings /> {{ t("settings") }}
         </SidebarMenuButton>
         <h1 class="text-end text-xs py-4">Version: {{ data.versions![0] }}</h1>
       </template>
     </AppSideBar>
-    <main class="w-full p-4">
-      <div class="flex justify-between w-full">
-        <SidebarTrigger />
-        <AppNavbar />
-      </div>
-      <RouterView />
+    <main class="w-full">
+      <AppNavbar />
+      <RouterView class="p-4" />
     </main>
   </SidebarProvider>
 </template>
