@@ -12,7 +12,7 @@ import {
   updateAvatar,
   updateEnabled,
   updatePhone,
-} from "@/services/UserService";
+} from "@/services/UsersService";
 import { toast } from "vue-sonner";
 import { defineProps } from "vue";
 import { useRouter } from "vue-router";
@@ -27,10 +27,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { userRole } from "@/models/UserRole";
-import { Badge } from "@/components/ui/badge";
 import { useI18n } from "vue-i18n";
-
+import AuthoritySelect from "@/components/AuthoritySelect.vue";
+import type { UserRoleType } from "@/models";
+import { updateRole } from "@/services";
 const { t } = useI18n();
 
 const props = defineProps<{
@@ -113,7 +113,7 @@ const updateAvatarMutation = useMutation({
   mutationFn: (avatar: File) =>
     updateAvatar(props.username, { avatar: avatar }),
   onSuccess: () => {
-    toast.success("Avatar updated successfully!");
+    toast.success("avatar_updated_successfully");
     queryClient.invalidateQueries({ queryKey: ["user", props.username] });
   },
   onError: (error) => {
@@ -121,6 +121,23 @@ const updateAvatarMutation = useMutation({
       `Failed to update avatar: ${
         error instanceof Error ? error.message : "Unknown error"
       }`
+    );
+  },
+});
+
+function handleAuthorityChange(value: UserRoleType): void {
+  updateAuthorityMutation.mutate(value);
+}
+
+const updateAuthorityMutation = useMutation({
+  mutationFn: (role: UserRoleType) => updateRole(props.username, role),
+  onSuccess: () => {
+    toast.success(t("user_role_updated_successfully"));
+    queryClient.invalidateQueries({ queryKey: ["user", props.username] });
+  },
+  onError: (error: any) => {
+    toast.error(
+      `${error.response?.data?.message || t("failed_to_update_user_role")}`
     );
   },
 });
@@ -206,13 +223,10 @@ const updateAvatarMutation = useMutation({
       :description="t('user_role_and_permissions')"
     >
       <template #trailing>
-        <Badge
-          class="text-xs font-semibold"
-          v-for="role in data.authorities"
-          :key="role.username"
-        >
-          {{ userRole(role.authority) }}
-        </Badge>
+        <AuthoritySelect
+          :role="data.authorities[0].authority"
+          @update-value="handleAuthorityChange"
+        />
       </template>
     </ListTile>
     <hr />

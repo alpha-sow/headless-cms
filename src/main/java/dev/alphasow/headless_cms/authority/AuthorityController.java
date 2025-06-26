@@ -5,14 +5,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("api/authority")
+@RequestMapping("api/authorities")
 @AllArgsConstructor
 @Tag(name = "Authority")
 public class AuthorityController {
     
     final AuthorityService authorityService;
+    
+    @GetMapping
+    public List<AuthorityEnum> findAllAuthorities(){
+        return authorityService.findAllAuthorities();
+    }
     
     @IsAdmin
     @GetMapping("/{username}")

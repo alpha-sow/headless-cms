@@ -1,5 +1,5 @@
 {
-  "headless_ui": "Interface sans tête",
+  "headless_ui": "Headless UI",
   "dashboard": "Tableau de bord",
   "welcome_to_the_dashboard": "Bienvenue sur le tableau de bord !",
   "settings": "Paramètres",
@@ -43,5 +43,6 @@
   "please_upload_your_avatar": "Veuillez télécharger votre avatar",
   "or": "ou",
   "admin": "Administrateur",
-  "guest": "Invité"
+  "guest": "Invité",
+  "user": "Utilisateur"
 }

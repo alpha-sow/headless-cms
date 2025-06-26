@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input, InputFile } from "@/components/ui/input";
-import { updateAvatar, updatePhone } from "@/services/UserService";
+import { updateAvatar, updatePhone } from "@/services/UsersService";
 import { useAuthStore } from "@/stores/UseAuthStore";
 import { toast } from "vue-sonner";
 import { userRole } from "@/models/UserRole";

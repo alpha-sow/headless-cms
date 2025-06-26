@@ -5,7 +5,7 @@ import DataTable from "@/components/DataTable.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import type { UserInfo } from "@/models/UserInfo";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/vue-query";
-import { fetchAllUsers, createUser } from "@/services/UserService";
+import { fetchAllUsers, createUser } from "@/services/UsersService";
 import CreateMembers from "@/components/CreateMembers.vue";
 import { toast } from "vue-sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
