@@ -4,12 +4,11 @@ import {
   currentCredential,
   currentUser,
   logout,
-} from "@/services/AuthService";
+} from "@/services";
 import { defineStore } from "pinia";
-import type Credential from "@/models/Credential";
+import type { Credential, UserInfo } from "@/models";
 import { toast } from "vue-sonner";
 import router from "@/router";
-import type { UserInfo } from "@/models/UserInfo";
 
 export const useAuthStore = defineStore("useAuthStore", {
   state: () => {

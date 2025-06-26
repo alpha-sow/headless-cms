@@ -1,4 +1,4 @@
-import type Credential from "@/models/Credential";
+import type { Credential } from "@/models";
 import axios from "axios";
 import { getItem, removeItem, setItem } from "@/services/LocalStorage";
 import type { UserInfo } from "@/models/UserInfo";

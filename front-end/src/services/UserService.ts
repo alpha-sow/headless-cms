@@ -1,7 +1,11 @@
 import axios from "axios";
-import { currentCredential } from "@/services/AuthService";
-import type { UserInfo } from "@/models/UserInfo";
-import type { PageResponse } from "@/models/PageResponse";
+import { currentCredential } from "@/services";
+import type {
+  UserInfo,
+  PageResponse,
+  UserRoleType,
+  UserAuthority,
+} from "@/models";
 
 export async function fetchAllUsers(): Promise<PageResponse<UserInfo>> {
   return axios
@@ -81,6 +85,19 @@ export async function updateEnabled(
 ): Promise<UserInfo> {
   return axios
     .patch(`/api/users/${username}/enabled`, userEnabled, {
+      headers: {
+        Authorization: `Bearer ${currentCredential()?.accessToken ?? ""}`,
+      },
+    })
+    .then((response) => response.data);
+}
+
+export async function updateRole(
+  username: string,
+  role: UserRoleType
+): Promise<UserAuthority> {
+  return axios
+    .patch(`/api/authority?username=${username}&role=${role}`, {
       headers: {
         Authorization: `Bearer ${currentCredential()?.accessToken ?? ""}`,
       },

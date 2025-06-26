@@ -25,7 +25,7 @@ const router: Router = createRouter({
         {
           path: "dashboard",
           name: "homeDashboard",
-          component: () => import("@/views/DashboardView.vue"),
+          component: () => import("@/views/HomeDashboardView.vue"),
           meta: { title: "Dashboard" },
         },
       ],
@@ -47,7 +47,7 @@ const router: Router = createRouter({
           path: "users",
           name: "settingsUsers",
           meta: { title: "Users" },
-          component: () => import("@/views/UserPage.vue"),
+          component: () => import("@/views/SettingsUsersPage.vue"),
           redirect: "/settings/users",
           children: [
             {
