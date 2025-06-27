@@ -49,7 +49,7 @@ export async function authenticationUser(): Promise<UserInfo> {
     });
 }
 
-export function logout() {
+export async function logout(): Promise<void> {
   removeItem(HEADLESS_CMS_USER_CREDENTIAL_KEY);
   removeItem(HEADLESS_CMS_USER_INFO_KEY);
 }

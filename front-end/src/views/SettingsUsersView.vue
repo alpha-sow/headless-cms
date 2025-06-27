@@ -20,7 +20,6 @@ import { useRouter } from "vue-router";
 import type { UserAuthority } from "@/models/UserAuthority";
 import { Badge } from "@/components/ui/badge";
 import { userRole } from "@/models/UserRole";
-import { useAuthStore } from "@/stores/UseAuthStore";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -28,8 +27,6 @@ const { t } = useI18n();
 const router = useRouter();
 
 const queryClient = useQueryClient();
-
-const authStore = useAuthStore();
 
 const { isPending, data } = useQuery({
   queryKey: ["users"],
@@ -67,19 +64,6 @@ const columns: ColumnDef<UserInfo>[] = [
   {
     header: () => h("div", t("username")),
     accessorKey: "username",
-    cell: ({ row }) =>
-      h("div", {}, [
-        h("span", {}, row.getValue("username")),
-        authStore.user?.username === row.getValue("username")
-          ? h(
-              Badge,
-              {
-                class: "ml-2 bg-green-500",
-              },
-              () => t("me")
-            )
-          : null,
-      ]),
   },
   {
     header: () => h("div", t("phone")),

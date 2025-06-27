@@ -12,7 +12,7 @@ import {
   updateAvatar,
   updateEnabled,
   updatePhone,
-} from "@/services/UsersService";
+} from "@/services";
 import { toast } from "vue-sonner";
 import { defineProps } from "vue";
 import { useRouter } from "vue-router";
@@ -39,7 +39,7 @@ const props = defineProps<{
 
 const queryClient = useQueryClient();
 
-const { data } = useQuery({
+const { isPending, data } = useQuery({
   queryKey: ["user", props.username],
   queryFn: () => fetchUser(props.username),
 });
@@ -143,111 +143,114 @@ const updateAuthorityMutation = useMutation({
 });
 </script>
 <template>
-  <div v-if="data">
-    <ListTile title="">
-      <template #leading>
-        <Button
-          variant="ghost"
-          @click="$router.push({ name: 'settingsUsersList' })"
-        >
-          <CircleArrowLeft class="w-5 h-5" />
-          {{ t("back") }}
-        </Button>
-      </template>
-    </ListTile>
-    <ListTile title="">
-      <template #leading>
-        <div class="flex flex-col items-center justify-center">
-          <Avatar class="h-22 w-22 mb-2">
-            <AvatarImage
-              :src="data.avatar ?? ''"
-              alt="User Avatar"
-              class="object-cover"
-            />
-            <AvatarFallback class="rounded-lg h-22 w-22">
-              <CircleUser :size="62" />
-            </AvatarFallback>
-          </Avatar>
-          <EditDialog :description="t('please_upload_your_avatar')">
-            <form id="dialogForm" class="space-y-6" @submit="onSubmitAvatar">
-              <FormField v-slot="{ componentField }" name="avatarField">
+  <div>
+    <div v-if="isPending" class="p-4">
+      <p>{{ t("loading") }}</p>
+    </div>
+    <div v-else="data">
+      <ListTile title="">
+        <template #leading>
+          <Button
+            variant="ghost"
+            @click="$router.push({ name: 'settingsUsersList' })"
+          >
+            <CircleArrowLeft class="w-5 h-5" />
+            {{ t("back") }}
+          </Button>
+        </template>
+      </ListTile>
+      <ListTile title="">
+        <template #leading>
+          <div class="flex flex-col items-center justify-center">
+            <Avatar class="h-22 w-22 mb-2">
+              <AvatarImage
+                :src="data!.avatar ?? ''"
+                alt="User Avatar"
+                class="object-cover"
+              />
+              <AvatarFallback class="rounded-lg h-22 w-22">
+                <CircleUser :size="62" />
+              </AvatarFallback>
+            </Avatar>
+            <EditDialog :description="t('please_upload_your_avatar')">
+              <form id="dialogForm" class="space-y-6" @submit="onSubmitAvatar">
+                <FormField v-slot="{ componentField }" name="avatarField">
+                  <FormItem>
+                    <FormLabel>{{ t("avatar") }}</FormLabel>
+                    <FormControl>
+                      <InputFile
+                        id="avatarField"
+                        v-bind="componentField"
+                        accept="image/png, image/jpeg"
+                      />
+                      <p
+                        class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                        id="file_input_help"
+                      >
+                        PNG, {{ t("or") }} JPG.
+                      </p>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </form>
+            </EditDialog>
+          </div>
+        </template>
+      </ListTile>
+      <ListTile :title="t('username')" :description="data!.username">
+      </ListTile>
+      <ListTile
+        :title="t('phone_number')"
+        :description="data!.phone ?? t('no_phone_number')"
+      >
+        <template #trailing>
+          <EditDialog description="Enter phone number.">
+            <form id="dialogForm" class="space-y-6" @submit="onSubmit">
+              <FormField v-slot="{ componentField }" name="editField">
                 <FormItem>
-                  <FormLabel>{{ t("avatar") }}</FormLabel>
+                  <FormLabel>{{ t("phone_number") }}</FormLabel>
                   <FormControl>
-                    <InputFile
-                      id="avatarField"
+                    <Input
+                      :placeholder="t('phone_number')"
                       v-bind="componentField"
-                      accept="image/png, image/jpeg"
                     />
-                    <p
-                      class="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                      id="file_input_help"
-                    >
-                      PNG, {{ t("or") }} JPG.
-                    </p>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               </FormField>
             </form>
           </EditDialog>
-        </div>
-      </template>
-    </ListTile>
-    <ListTile :title="t('username')" :description="data.username"> </ListTile>
-    <ListTile
-      :title="t('phone_number')"
-      :description="data.phone ?? t('no_phone_number')"
-    >
-      <template #trailing>
-        <EditDialog description="Enter phone number.">
-          <form id="dialogForm" class="space-y-6" @submit="onSubmit">
-            <FormField v-slot="{ componentField }" name="editField">
-              <FormItem>
-                <FormLabel>{{ t("phone_number") }}</FormLabel>
-                <FormControl>
-                  <Input
-                    :placeholder="t('phone_number')"
-                    v-bind="componentField"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </form>
-        </EditDialog>
-      </template>
-    </ListTile>
-    <ListTile
-      :title="t('authorities')"
-      :description="t('user_role_and_permissions')"
-    >
-      <template #trailing>
-        <AuthoritySelect
-          :role="data.authorities[0].authority"
-          @update-value="handleAuthorityChange"
-        />
-      </template>
-    </ListTile>
-    <hr />
-    <ListTile :title="t('enabled')">
-      <template #trailing>
-        <Switch
-          :model-value="data.enabled"
-          @update:model-value="handleSwitchToggle"
-        />
-      </template>
-    </ListTile>
-    <hr />
-    <ListTile :title="t('danger_zone')">
-      <template #trailing>
-        <AlertDialogAction @continue="handleDeleteUser">
-          <Button variant="destructive"> {{ t("delete_account") }} </Button>
-        </AlertDialogAction>
-      </template>
-    </ListTile>
-  </div>
-  <div v-else class="p-4">
-    <p>{{ t("loading") }}</p>
+        </template>
+      </ListTile>
+      <ListTile
+        :title="t('authorities')"
+        :description="t('user_role_and_permissions')"
+      >
+        <template #trailing>
+          <AuthoritySelect
+            :role="data!.authorities[0].authority"
+            @update-value="handleAuthorityChange"
+          />
+        </template>
+      </ListTile>
+      <hr />
+      <ListTile :title="t('enabled')">
+        <template #trailing>
+          <Switch
+            :model-value="data!.enabled"
+            @update:model-value="handleSwitchToggle"
+          />
+        </template>
+      </ListTile>
+      <hr />
+      <ListTile :title="t('danger_zone')">
+        <template #trailing>
+          <AlertDialogAction @continue="handleDeleteUser">
+            <Button variant="destructive"> {{ t("delete_account") }} </Button>
+          </AlertDialogAction>
+        </template>
+      </ListTile>
+    </div>
   </div>
 </template>

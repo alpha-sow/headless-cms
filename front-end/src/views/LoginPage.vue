@@ -7,18 +7,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAuthStore } from "@/stores/UseAuthStore";
 import LoginForm from "@/components/LoginForm.vue";
 import type User from "@/models/User";
 import { useI18n } from "vue-i18n";
+import { authenticationCredentialWithBasicAuth } from "@/services";
+import { toast } from "vue-sonner";
+import { useRouter } from "vue-router";
 
 const { t } = useI18n();
 
-const authStore = useAuthStore();
+const router = useRouter();
 
 const { isPending, mutate } = useMutation({
   mutationFn: (user: User) =>
-    authStore.signInWithUsernameAndPassword(user.username, user.password),
+    authenticationCredentialWithBasicAuth(user.username, user.password),
+  onSuccess: (_) => {
+    router.push({ name: "root" });
+  },
+  onError: (_) => {
+    toast.error("Authentication failed", {
+      description: "Please check your username and password.",
+    });
+  },
 });
 
 async function onSubmit(values: { username: string; password: string }) {

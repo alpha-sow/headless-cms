@@ -2,7 +2,6 @@
 import { Sun, Moon } from "lucide-vue-next";
 import { useColorMode } from "@vueuse/core";
 import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/stores/UseAuthStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,12 +14,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, CircleUser } from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { useMutation, useQuery } from "@tanstack/vue-query";
+import { authenticationUser, logout } from "@/services";
 
 const { t } = useI18n();
 
 const router = useRouter();
-const authStore = useAuthStore();
+
 const mode = useColorMode();
+
+const { data } = useQuery({
+  queryKey: ["authUser"],
+  queryFn: authenticationUser,
+});
+
+function handleLogout() {
+  logoutMutation.mutate();
+}
+
+const logoutMutation = useMutation({
+  mutationFn: logout,
+  onSuccess: () => {
+    router.push({ name: "login" });
+  },
+  onError: (error) => {
+    console.error("Logout failed:", error);
+  },
+});
 </script>
 
 <template>
@@ -41,7 +61,7 @@ const mode = useColorMode();
         <DropdownMenuTrigger as-child>
           <Avatar class="h-8 w-8 rounded-lg">
             <AvatarImage
-              :src="authStore.user?.avatar ?? ''"
+              :src="data?.avatar ?? ''"
               alt="username"
               class="object-cover"
             />
@@ -59,17 +79,14 @@ const mode = useColorMode();
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage
-                  :src="authStore?.user?.avatar ?? ''"
-                  alt="userAvatar"
-                />
+                <AvatarImage :src="data?.avatar ?? ''" alt="userAvatar" />
                 <AvatarFallback class="rounded-lg">
                   <CircleUser />
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
                 <span class="truncate font-semibold">{{
-                  authStore.user?.username ?? "Guest"
+                  data?.username ?? "Guest"
                 }}</span>
               </div>
             </div>
@@ -79,7 +96,7 @@ const mode = useColorMode();
             <span class="text-sm">{{ t("profile") }}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="authStore.logout">
+          <DropdownMenuItem @click="handleLogout">
             <LogOut class="mr-2 h-4 w-4" />
             <span>{{ t("logout") }}</span>
           </DropdownMenuItem>
