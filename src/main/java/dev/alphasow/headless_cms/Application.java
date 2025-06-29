@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableConfigurationProperties(RsaKeyProperties.class)
 @SpringBootApplication
 @EnableJpaRepositories
-public class HeadlessCmsApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HeadlessCmsApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
