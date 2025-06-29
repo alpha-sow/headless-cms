@@ -17,7 +17,7 @@ services:
     ports:
       - "8092:8092"
     environment:
-      SPRING_HOST_URL: https://cms-api.alphasow.dev # replace it with your domain name
+      SPRING_HOST_URL: ${HOST_URL} # replace it with your domain name
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/headless-cms
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
