@@ -5,6 +5,7 @@ import dev.alphasow.headless_cms.service.UploadFileService;
 import dev.alphasow.headless_cms.model.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class UserController {
 
     final UserService userService;
     final UploadFileService uploadFileService;
+    final Environment env;
     
     @IsAdmin
     @GetMapping
@@ -67,7 +69,10 @@ public class UserController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         final String fileName = uploadFileService.uploadFile("avatars", username, file);
-        final UserDTO user =  userService.updateAvatar(username, "http://localhost:8092/avatars/" + fileName);
+        final String port = env.getProperty("server.port");
+        final String url = "http://localhost";
+        final String avatarUrl = url+":"+port+"/avatars/" + fileName;
+        final UserDTO user =  userService.updateAvatar(username, avatarUrl);
         return ResponseEntity.ok().body(user);
     }
 }
