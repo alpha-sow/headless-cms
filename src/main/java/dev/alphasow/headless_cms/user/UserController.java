@@ -67,7 +67,7 @@ public class UserController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         final String fileName = uploadFileService.uploadFile("avatars", username, file);
-        final UserDTO user =  userService.updateAvatar(username, "http://localhost:8080/avatars/" + fileName);
+        final UserDTO user =  userService.updateAvatar(username, "http://localhost:8092/avatars/" + fileName);
         return ResponseEntity.ok().body(user);
     }
 }

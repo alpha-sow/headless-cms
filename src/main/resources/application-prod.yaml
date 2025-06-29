@@ -28,7 +28,7 @@ rsa:
 springdoc:
   swagger-ui:
     path: /docs
-    
+   
 server:
   error:
     include-stacktrace: never

@@ -4,9 +4,9 @@ services:
   frontend:
     build: frontend/.
     ports:
-      - "80:80"
+      - "8091:8091"
     environment:
-      BACKEND_URL: http://backend:8080/api/
+      BACKEND_URL: http://backend:8092/api/
     depends_on:
       - backend
 
@@ -17,7 +17,7 @@ services:
         ARTIFACT_ID: ${APP_ARTIFACT_ID}
         VERSION: ${APP_VERSION}
     ports:
-      - "8080:8080"
+      - "8092:8092"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/headless-cms
       SPRING_DATASOURCE_USERNAME: postgres
