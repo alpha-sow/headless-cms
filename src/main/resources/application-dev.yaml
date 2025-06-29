@@ -20,6 +20,8 @@ spring:
       mode: always
       platform: postgresql
       schema-locations: classpath:schema.sql
+app:
+  HOST_URL: "http://localhost:8092"
 
 rsa:
   private-key: classpath:certs/private.pem

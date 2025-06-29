@@ -20,6 +20,8 @@ spring:
       mode: always
       platform: postgresql
       schema-locations: classpath:schema.sql
+app:    
+ HOST_URL: ${SPRING_HOST_URL}
       
 rsa:
   private-key: classpath:certs/private.pem
@@ -28,7 +30,7 @@ rsa:
 springdoc:
   swagger-ui:
     path: /docs
-   
+    
 server:
   error:
     include-stacktrace: never
