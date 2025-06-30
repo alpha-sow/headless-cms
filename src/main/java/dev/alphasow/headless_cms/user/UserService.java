@@ -38,14 +38,14 @@ public class UserService {
         }
         jdbcUserDetailsManager.createUser(newUser);
         final UserEntity response = userRepository.findById(newUser.getUsername()).orElseThrow(
-                ()-> new UserNotFoundException("User not found")
+                UserNotFoundException::new
         );
         return Optional.ofNullable(userMapper.userDataToUserDto(response));
     }
     
     public Optional<UserDTO> findById(String id){
         final UserEntity user = userRepository.findById(id).orElseThrow(
-                ()-> new UserNotFoundException("User not found")
+                UserNotFoundException::new
         );
         return Optional.ofNullable(userMapper.userDataToUserDto(user));
     }
@@ -56,7 +56,7 @@ public class UserService {
 
     public UserDTO updatePhone(String username, UserPhoneDTO phone) {
         final UserEntity user = userRepository.findById(username).orElseThrow(
-                ()-> new UserNotFoundException("User not found")
+                UserNotFoundException::new
         );
         user.setPhone(phone.getPhone());
         userRepository.save(user);
@@ -65,7 +65,7 @@ public class UserService {
 
     public UserDTO updateEnable(String username, UserEnabledDTO enable) {
         final UserEntity user = userRepository.findById(username).orElseThrow(
-                ()-> new UserNotFoundException("User not found")
+                UserNotFoundException::new
         );
         user.setEnabled(enable.isEnabled());
         userRepository.save(user);
@@ -74,7 +74,7 @@ public class UserService {
     
     public UserDTO updateAvatar(String username, String avatar){
         final UserEntity user = userRepository.findById(username).orElseThrow(
-                ()-> new UserNotFoundException("User not found")
+                UserNotFoundException::new
         );
         user.setAvatar(avatar);
         userRepository.save(user);
