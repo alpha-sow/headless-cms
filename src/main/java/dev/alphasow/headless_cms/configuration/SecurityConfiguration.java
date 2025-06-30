@@ -37,7 +37,7 @@ import static org.springframework.security.config.Customizer.*;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
-    final Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
+    final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
     private final RsaKeyProperties rsaKeys;
 
     @Bean
@@ -52,7 +52,7 @@ public class SecurityConfiguration {
         final JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         if (!jdbcUserDetailsManager.userExists(admin.getUsername())) {
             jdbcUserDetailsManager.createUser(admin);
-            LOG.info("admin password: {}", randomPassword);
+            log.info("admin password: {}", randomPassword);
         }
         return jdbcUserDetailsManager;
     }
