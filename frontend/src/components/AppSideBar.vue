@@ -25,19 +25,13 @@ function isActive(name: string): boolean {
 </script>
 
 <template>
-  <Sidebar>
+  <Sidebar collapsible="icon">
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
           <slot name="header">
-            <SidebarMenuButton
-              click=""
-              size="lg"
-              class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ data.name }}</span>
-              </div>
+            <SidebarMenuButton :tooltip="data.name">
+              {{ data.name }}
             </SidebarMenuButton>
           </slot>
         </SidebarMenuItem>

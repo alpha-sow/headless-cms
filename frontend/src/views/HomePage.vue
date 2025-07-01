@@ -13,7 +13,6 @@ const { t } = useI18n();
 
 const router = useRouter();
 const data: SidebarData = {
-  versions: ["0.0.1"],
   name: t("headless_ui"),
   navMain: [
     {
@@ -31,7 +30,6 @@ const data: SidebarData = {
         <SidebarMenuButton @click="router.push({ name: 'settings' })">
           <Settings /> {{ t("settings") }}
         </SidebarMenuButton>
-        <h1 class="text-end text-xs py-4">Version: {{ data.versions![0] }}</h1>
       </template>
     </AppSideBar>
     <main class="w-full">

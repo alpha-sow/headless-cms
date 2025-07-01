@@ -16,6 +16,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import { authenticationUser, logout } from "@/services";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const { t } = useI18n();
 
@@ -47,7 +48,7 @@ const logoutMutation = useMutation({
   <nav
     class="flex justify-between p-2 sticky top-0 w-full z-10 backdrop-blur-md"
   >
-    <div></div>
+    <SidebarTrigger />
     <div class="flex space-x-4">
       <Button
         variant="ghost"
