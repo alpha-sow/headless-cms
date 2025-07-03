@@ -2,11 +2,11 @@
 import { authenticationUser } from "@/services/AuthService";
 import { ListTile } from "@/components/ui/list-tile";
 import { useQuery } from "@tanstack/vue-query";
-import { userRole } from "@/models/UserRole";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "vue-i18n";
 import EditAvatar from "@/components/EditAvatar.vue";
 import EditPhone from "@/components/EditPhone.vue";
+import { userRole } from "./utils";
 
 const { t } = useI18n();
 

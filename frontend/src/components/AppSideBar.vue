@@ -12,11 +12,14 @@ import {
 } from "@/components/ui/sidebar";
 import type { SidebarData } from "@/views/utils";
 import { useRouter } from "vue-router";
+import { sideBarAccess } from "@/views/utils";
+import type { UserInfo } from "@/models";
 
 const router = useRouter();
 
 defineProps<{
-  data: SidebarData;
+  sidebarContent: SidebarData;
+  user: UserInfo;
 }>();
 
 function isActive(name: string): boolean {
@@ -29,11 +32,7 @@ function isActive(name: string): boolean {
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
-          <slot name="header">
-            <SidebarMenuButton :tooltip="data.name">
-              {{ data.name }}
-            </SidebarMenuButton>
-          </slot>
+          <slot name="header"> </slot>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
@@ -41,8 +40,9 @@ function isActive(name: string): boolean {
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="item in data.navMain" :key="item.title">
+            <SidebarMenuItem v-for="item in sidebarContent" :key="item.key">
               <SidebarMenuButton
+                v-if="sideBarAccess(item.key, user.authorities[0].authority)"
                 :class="{
                   'bg-sidebar-accent text-sidebar-accent-foreground': isActive(
                     item.urlName
@@ -51,7 +51,7 @@ function isActive(name: string): boolean {
                 @click="() => router.push({ name: item.urlName })"
                 :tooltip="item.title"
               >
-                <component :is="item.icon" />
+                <component :is="item.icon" :size="32" />
                 {{ item.title }}
               </SidebarMenuButton>
             </SidebarMenuItem>

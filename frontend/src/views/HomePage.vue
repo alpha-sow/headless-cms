@@ -8,26 +8,40 @@ import type { SidebarData } from "@/views/utils";
 import { useRouter } from "vue-router";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { useI18n } from "vue-i18n";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useQuery } from "@tanstack/vue-query";
+import { authenticationUser } from "@/services";
 
 const { t } = useI18n();
-
 const router = useRouter();
-const data: SidebarData = {
-  name: t("headless_ui"),
-  navMain: [
-    {
-      title: t("dashboard"),
-      urlName: "homeDashboard",
-      icon: Home,
-    },
-  ],
-};
+const { data } = useQuery({
+  queryKey: ["authUser"],
+  queryFn: authenticationUser,
+});
+
+const sidebarData: SidebarData = [
+  {
+    key: "dashboard",
+    title: t("dashboard"),
+    urlName: "homeDashboard",
+    icon: Home,
+  },
+];
 </script>
 <template>
   <SidebarProvider>
-    <AppSideBar :data="data">
+    <AppSideBar v-if="data" :sidebarContent="sidebarData" :user="data">
+      <template #header>
+        <Avatar>
+          <AvatarImage src="" alt="" />
+          <AvatarFallback>HC</AvatarFallback>
+        </Avatar>
+      </template>
       <template #footer>
-        <SidebarMenuButton @click="router.push({ name: 'settings' })">
+        <SidebarMenuButton
+          @click="router.push({ name: 'settings' })"
+          :tooltip="t('settings')"
+        >
           <Settings /> {{ t("settings") }}
         </SidebarMenuButton>
       </template>

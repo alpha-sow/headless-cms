@@ -19,7 +19,7 @@ import DropdownAction from "@/components/DropdownAction.vue";
 import { useRouter } from "vue-router";
 import type { UserAuthority } from "@/models/UserAuthority";
 import { Badge } from "@/components/ui/badge";
-import { userRole } from "@/models/UserRole";
+import { userRole } from "./utils";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();

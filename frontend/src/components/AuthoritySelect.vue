@@ -8,8 +8,9 @@ import {
   SelectItem,
   SelectLabel,
 } from "@/components/ui/select";
-import { userRole, type UserRoleType } from "@/models";
+import type { UserRoleType } from "@/models";
 import { fetchAuthorities } from "@/services";
+import { userRole } from "@/views/utils";
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";

@@ -15,64 +15,60 @@ import SettingsUsersView from "@/views/SettingsUsersView.vue";
 import SettingsUsersDetailView from "@/views/SettingsUsersDetailView.vue";
 import HomeDashboardView from "@/views/HomeDashboardView.vue";
 import LoginPage from "@/views/LoginPage.vue";
-import AppRoot from "@/views/AppRoot.vue";
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
       name: "root",
-      component: AppRoot,
       redirect: "/home",
+    },
+    {
+      path: "/home",
+      name: "home",
+      component: HomePage,
+      redirect: "/home/dashboard",
       children: [
         {
-          path: "/home",
-          name: "home",
-          component: HomePage,
-          redirect: "/home/dashboard",
-          children: [
-            {
-              path: "dashboard",
-              name: "homeDashboard",
-              component: HomeDashboardView,
-              meta: { title: "Dashboard" },
-            },
-          ],
+          path: "dashboard",
+          name: "homeDashboard",
+          component: HomeDashboardView,
+          meta: { title: "Dashboard" },
+        },
+      ],
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: SettingsPage,
+      meta: { title: "Settings" },
+      redirect: "/settings/profile",
+      children: [
+        {
+          path: "profile",
+          name: "settingsProfile",
+          component: SettingsProfileView,
+          meta: { title: "Profile Settings" },
         },
         {
-          path: "/settings",
-          name: "settings",
-          component: SettingsPage,
-          meta: { title: "Settings" },
-          redirect: "/settings/profile",
+          path: "users",
+          name: "settingsUsers",
+          meta: { title: "Users" },
+          component: SettingsUsersPage,
+          redirect: "/settings/users",
           children: [
             {
-              path: "profile",
-              name: "settingsProfile",
-              component: SettingsProfileView,
-              meta: { title: "Profile Settings" },
+              path: "",
+              name: "settingsUsersList",
+              component: SettingsUsersView,
+              meta: { title: "Users List" },
             },
             {
-              path: "users",
-              name: "settingsUsers",
-              meta: { title: "Users" },
-              component: SettingsUsersPage,
-              redirect: "/settings/users",
-              children: [
-                {
-                  path: "",
-                  name: "settingsUsersList",
-                  component: SettingsUsersView,
-                  meta: { title: "Users List" },
-                },
-                {
-                  path: ":username",
-                  name: "settingsUsersDetail",
-                  component: SettingsUsersDetailView,
-                  meta: { title: "User Detail" },
-                  props: true,
-                },
-              ],
+              path: ":username",
+              name: "settingsUsersDetail",
+              component: SettingsUsersDetailView,
+              meta: { title: "User Detail" },
+              props: true,
             },
           ],
         },
