@@ -17,18 +17,10 @@ pipeline {
                 }
             }
         }
-        stage('Remove old build') {
-			steps {
-				script {
-					sh "docker compose down"
-				}
-			}
-		}
         stage('Build Docker Compose') {
 			steps {
 				script {
 					if (fileExists('./docker-compose-build.sh')) {
-						sh "chmod +x -R ${env.WORKSPACE}"
 						sh './docker-compose-build.sh'
                     } else {
 						error "Le script docker-compose-build.sh est introuvable !"
