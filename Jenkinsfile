@@ -4,6 +4,15 @@ pipeline {
 		MAVEN_OPTS = "-Xms256m -Xmx512m"
     }
     stages {
+		stage('SCM') {
+			checkout scm
+		}
+		stage('SonarQube Analysis') {
+			def mvn = tool 'jenkins-maven';
+			withSonarQubeEnv() {
+				sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=alpha-sow_headless-cms_AZfBLWT6Vjbf4wpJF_Sw"
+			}
+		}
 		stage('Build Docker Compose') {
 			steps {
 				script {
@@ -18,36 +27,10 @@ pipeline {
 						"APP_VERSION=${dockerComposeEnv.appVersion}",
 						"HOST_URL=${dockerComposeEnv.hostUrl}"
 					]) {
-					sh 'docker compose up --build -d'
+						sh 'docker compose up --build -d'
 					}
 				}
 			}
 		}
-        stage('SonarQube Analysis') {
-			steps {
-				steps {
-					script {
-						try {
-							checkout scm
-                    } catch (Exception e) {
-							echo "Erreur lors de la récupération du code source : ${e.message}"
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            	}
-				script {
-					def mvn = tool 'jenkins-maven'
-                    withSonarQubeEnv('SonarQubeInstance') {
-                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=alpha-sow_headless-cms_AZfBLWT6Vjbf4wpJF_Sw"
-                    }
-                }
-            }
-        }
-        stage('Archive Artifacts') {
-			steps {
-				archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            }
-        }
     }
 }
