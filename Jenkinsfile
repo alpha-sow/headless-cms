@@ -10,10 +10,10 @@ node {
 	}
 	stage('Build Docker Compose') {
 		def dockerComposeEnv = [
-						appArtifactId: 'headless-cms',
-						appVersion: '0.0.1-SNAPSHOT', 
-						hostUrl: 'https://cms-api.alphasow.dev'
-				]						
+			appArtifactId: 'headless-cms',
+			appVersion: '0.0.1-SNAPSHOT', 
+			hostUrl: 'https://cms-api.alphasow.dev'
+		]						
 		sh 'docker compose down'
 		withEnv([
 			"APP_ARTIFACT_ID=${dockerComposeEnv.appArtifactId}",
