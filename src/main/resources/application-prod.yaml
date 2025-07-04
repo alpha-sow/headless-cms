@@ -29,7 +29,7 @@ rsa:
 
 springdoc:
   swagger-ui:
-    path: /docs
+    path: /
     
 server:
   error:

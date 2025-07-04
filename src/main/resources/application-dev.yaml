@@ -29,6 +29,6 @@ rsa:
 
 springdoc:
   swagger-ui:
-    path: /docs
+    path: /
 server:
   port: 8092
