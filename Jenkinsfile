@@ -17,6 +17,13 @@ pipeline {
                 }
             }
         }
+        stage('Remove old build') {
+			steps {
+				script {
+					sh "docker compose down"
+				}
+			}
+		}
         stage('Build Docker Compose') {
 			steps {
 				script {
