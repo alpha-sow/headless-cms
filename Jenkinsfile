@@ -14,12 +14,12 @@ node {
 			appVersion: '0.0.1-SNAPSHOT', 
 			hostUrl: 'https://cms-api.alphasow.dev'
 		]						
-		sh 'docker compose down'
 		withEnv([
 			"APP_ARTIFACT_ID=${dockerComposeEnv.appArtifactId}",
 			"APP_VERSION=${dockerComposeEnv.appVersion}",
 			"HOST_URL=${dockerComposeEnv.hostUrl}"
 		]) {
+			sh 'docker compose down'
 			sh 'docker compose up --build -d'
 		}
 	}
