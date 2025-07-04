@@ -4,19 +4,6 @@ pipeline {
 		MAVEN_OPTS = "-Xms256m -Xmx512m"
     }
     stages {
-		stage('SCM') {
-			steps {
-				script {
-					try {
-						checkout scm
-                    } catch (Exception e) {
-						echo "Erreur lors de la récupération du code source : ${e.message}"
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            }
-        }
 		stage('Build Docker Compose') {
 			steps {
 				script {
@@ -38,6 +25,17 @@ pipeline {
 		}
         stage('SonarQube Analysis') {
 			steps {
+				steps {
+					script {
+						try {
+							checkout scm
+                    } catch (Exception e) {
+							echo "Erreur lors de la récupération du code source : ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
+            	}
 				script {
 					def mvn = tool 'jenkins-maven'
                     withSonarQubeEnv('SonarQubeInstance') {
