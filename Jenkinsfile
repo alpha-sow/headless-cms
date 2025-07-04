@@ -18,28 +18,23 @@ pipeline {
             }
         }
 		stage('Build Docker Compose') {
-				steps {
-					script {
-						def dockerComposeScript = './docker-compose-build.sh'
-						def appArtifactId = 'headless-cms'
-						def appVersion = '0.0.1-SNAPSHOT'
-						def hostUrl = 'https://cms-api.alphasow.dev'
-						
-						def executeDockerComposeBuild() {
-							sh 'docker compose down'
-							sh "export APP_ARTIFACT_ID=${appArtifactId}"
-							sh "export APP_VERSION=${appVersion}"
-							sh "export HOST_URL=${hostUrl}"
-							sh 'docker compose up --build -d'
-						}
-			
-						if (fileExists(dockerComposeScript)) {
-							executeDockerComposeBuild()
-						} else {
-							error "Le script requis (${dockerComposeScript}) est introuvable. Vérifiez son existence et réessayez."
-						}
+			steps {
+				script {
+					def dockerComposeEnv = [
+							appArtifactId: 'headless-cms',
+							appVersion: '0.0.1-SNAPSHOT', 
+							hostUrl: 'https://cms-api.alphasow.dev'
+					]						
+					sh 'docker compose down'
+					withEnv([
+						"APP_ARTIFACT_ID=${dockerComposeEnv.appArtifactId}",
+						"APP_VERSION=${dockerComposeEnv.appVersion}",
+						"HOST_URL=${dockerComposeEnv.hostUrl}"
+					]) {
+					sh 'docker compose up --build -d'
 					}
 				}
+			}
 		}
         stage('SonarQube Analysis') {
 			steps {
