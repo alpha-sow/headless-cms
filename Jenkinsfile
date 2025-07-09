@@ -2,6 +2,11 @@ node {
 	stage('SCM') {
 		checkout scm
 	}
+	stage('Vault key') {
+		withVault() {
+			sh 'echo ADDR=$VAULT_ADDR'
+		}
+	}
 	stage('SonarQube Analysis') {
 		def mvn = tool 'jenkins-maven';
 		withSonarQubeEnv() {
