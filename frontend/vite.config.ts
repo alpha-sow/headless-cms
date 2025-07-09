@@ -19,7 +19,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8091,  
+    port: 8094,  
     proxy: {
       "/api": {
           target: process.env.BACKEND_URL || "http://localhost:8092/api",
