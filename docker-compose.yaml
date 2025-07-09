@@ -3,10 +3,6 @@ services:
     build: frontend/.
     ports:
       - "8094:8094"
-    environment:
-      BACKEND_URL: http://backend:8092/api/
-    depends_on:
-      - backend
 
   backend:
     build: 
