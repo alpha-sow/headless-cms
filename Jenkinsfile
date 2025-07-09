@@ -5,9 +5,11 @@ node {
 	stage('Vault key') {
 		def secrets = [
 			[
-				path: 'secret/ci-cd', 
-				engineVersion: 2, secretValues: [
-					[envVar: 'id', vaultKey: 'id']
+				path: 'secret/headless-cms', 
+				engineVersion: 1, secretValues: [
+					[envVar: 'APP_ARTIFACT_ID', vaultKey: 'APP_ARTIFACT_ID'],
+					[envVar: 'APP_VERSION', vaultKey: 'APP_VERSION'],
+					[envVar: 'HOST_URL', vaultKey: 'HOST_URL'],
 				]
 			],
     	]
@@ -22,15 +24,10 @@ node {
 		}
 	}
 	stage('Build Docker Compose') {
-		def dockerComposeEnv = [
-			appArtifactId: 'headless-cms',
-			appVersion: '0.0.1-SNAPSHOT', 
-			hostUrl: 'https://cms-api.alphasow.dev'
-		]						
 		withEnv([
-			"APP_ARTIFACT_ID=${dockerComposeEnv.appArtifactId}",
-			"APP_VERSION=${dockerComposeEnv.appVersion}",
-			"HOST_URL=${dockerComposeEnv.hostUrl}"
+			"APP_ARTIFACT_ID=${APP_ARTIFACT_ID}",
+			"APP_VERSION=${APP_VERSION}",
+			"HOST_URL=${HOST_URL}"
 		]) {
 			sh 'docker compose up -d'
 		}
