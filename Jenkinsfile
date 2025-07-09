@@ -2,11 +2,12 @@ node {
 	stage('SCM') {
 		checkout scm
 	}
-	stage('Vault key') {
+	stage('Vault secrets') {
 		def secrets = [
 			[
-				path: 'secret/ci-cd', 
-				engineVersion: 1, secretValues: [
+				path: 'secret/headless-cms', 
+				engineVersion: 2, 
+				secretValues: [
 					[envVar: 'APP_ARTIFACT_ID', vaultKey: 'APP_ARTIFACT_ID'],
 					[envVar: 'APP_VERSION', vaultKey: 'APP_VERSION'],
 					[envVar: 'HOST_URL', vaultKey: 'HOST_URL'],
