@@ -13,7 +13,10 @@ node {
 				]
 			],
     	]
-		withVault([vaultSecrets: secrets]) {
+    	def configuration = [
+                         vaultCredentialId: 'vault-token',
+                         engineVersion: 1]
+		withVault([configuration: configuration,vaultSecrets: secrets]) {
 			sh 'echo APP_ARTIFACT_ID=$APP_ARTIFACT_ID'
 			sh 'echo APP_VERSION=$APP_VERSION'
 			sh 'echo HOST_URL=$HOST_URL'
