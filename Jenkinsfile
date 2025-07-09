@@ -3,8 +3,16 @@ node {
 		checkout scm
 	}
 	stage('Vault key') {
-		withCredentials([$class: 'VaultTokenCredentialBinding',credentialsId: 'vault-token']) {
-			sh 'echo ADDR=$VAULT_ADDR'
+		def secrets = [
+			[
+				path: 'secret/ci-cd', 
+				engineVersion: 2, secretValues: [
+					[envVar: 'id', vaultKey: 'value_one']
+				]
+			],
+    	]
+		withVault([vaultSecrets: secrets]) {
+			sh 'echo ID=id'
 		}
 	}
 	stage('SonarQube Analysis') {
