@@ -3,7 +3,7 @@ node {
 		checkout scm
 	}
 	stage('Vault key') {
-		withVault() {
+		withCredentials() {
 			sh 'echo ADDR=$VAULT_ADDR'
 		}
 	}
