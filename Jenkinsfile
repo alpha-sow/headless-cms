@@ -5,7 +5,7 @@ node {
 	stage('Vault key') {
 		def secrets = [
 			[
-				path: 'secret/data/headless-cms', 
+				path: 'secret/headless-cms', 
 				engineVersion: 1, secretValues: [
 					[envVar: 'APP_ARTIFACT_ID', vaultKey: 'APP_ARTIFACT_ID'],
 					[envVar: 'APP_VERSION', vaultKey: 'APP_VERSION'],
