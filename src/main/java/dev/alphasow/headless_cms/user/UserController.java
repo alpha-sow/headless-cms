@@ -30,37 +30,37 @@ public class UserController {
     
     @IsAdmin
     @GetMapping
-    PageResponse<UserDTO> findAllUsers(Pageable pageable) {
+    public PageResponse<UserDTO> findAllUsers(Pageable pageable) {
         return userService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    Optional<UserDTO> findById(@PathVariable String id) {
+    public Optional<UserDTO> findById(@PathVariable String id) {
         return userService.findById(id);
     }
 
     @IsAdmin
     @PostMapping
-    ResponseEntity<Optional<UserDTO>> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<Optional<UserDTO>> createUser(@RequestBody UserDTO user) {
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
     @IsAdmin
     @DeleteMapping("/{username}")
-    ResponseEntity<String> deleteUser(@PathVariable String username) {
+    public ResponseEntity<String> deleteUser(@PathVariable String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{username}/phone")
-    ResponseEntity<UserDTO> updatePhone(@PathVariable String username, @RequestBody UserPhoneDTO phoneDto){
+    public ResponseEntity<UserDTO> updatePhone(@PathVariable String username, @RequestBody UserPhoneDTO phoneDto){
         UserDTO updatedUser = userService.updatePhone(username, phoneDto);
         return ResponseEntity.ok().body(updatedUser);
     }
     
     @IsAdmin
     @PatchMapping("/{username}/enabled")
-    ResponseEntity<UserDTO> updateEnable(@PathVariable String username, @RequestBody UserEnabledDTO enabledDto){
+    public ResponseEntity<UserDTO> updateEnable(@PathVariable String username, @RequestBody UserEnabledDTO enabledDto){
         UserDTO updatedUser = userService.updateEnable(username, enabledDto);
         return ResponseEntity.ok().body(updatedUser);
     }

@@ -19,7 +19,7 @@ const router = useRouter();
 
 defineProps<{
   sidebarContent: SidebarData;
-  user: UserInfo;
+  user?: UserInfo;
 }>();
 
 function isActive(name: string): boolean {
@@ -42,7 +42,7 @@ function isActive(name: string): boolean {
           <SidebarMenu>
             <SidebarMenuItem v-for="item in sidebarContent" :key="item.key">
               <SidebarMenuButton
-                v-if="sideBarAccess(item.key, user.authorities[0].authority)"
+                v-if="sideBarAccess(item.key, user)"
                 :class="{
                   'bg-sidebar-accent text-sidebar-accent-foreground': isActive(
                     item.urlName
