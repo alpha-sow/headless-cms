@@ -2,6 +2,13 @@ node {
 	stage('SCM') {
 		checkout scm
 	}
+	environment {
+		APP_ARTIFACT_ID=''
+		APP_VERSION=''
+		HOST_URL=''
+		DB_USERNAME=''
+		DB_PASSWORD=''
+	}
 	stage('Vault secrets') {
 		def secrets = [
 			[
@@ -11,13 +18,20 @@ node {
 					[envVar: 'APP_ARTIFACT_ID', vaultKey: 'APP_ARTIFACT_ID'],
 					[envVar: 'APP_VERSION', vaultKey: 'APP_VERSION'],
 					[envVar: 'HOST_URL', vaultKey: 'HOST_URL'],
+					[envVar: 'DB_USERNAME', vaultKey: 'DB_USERNAME'],
+					[envVar: 'DB_PASSWORD', vaultKey: 'DB_PASSWORD'],
 				]
 			],
     	]
 		withVault([vaultSecrets: secrets]) {
-			sh 'echo APP_ARTIFACT_ID=$APP_ARTIFACT_ID'
-			sh 'echo APP_VERSION=$APP_VERSION'
-			sh 'echo HOST_URL=$HOST_URL'
+			script {
+				env.APP_ARTIFACT_ID=APP_ARTIFACT_ID
+				env.APP_VERSION=APP_VERSION
+				env.HOST_URL=HOST_URL
+				env.DB_USERNAME=DB_USERNAME
+				env.DB_PASSWORD=DB_PASSWORD
+				
+			}
 		}
 	}
 	stage('SonarQube Analysis') {
@@ -27,17 +41,6 @@ node {
 		}
 	}
 	stage('Build Docker Compose') {
-		def dockerComposeEnv = [
-			appArtifactId: 'headless-cms',
-			appVersion: '0.0.1-SNAPSHOT', 
-			hostUrl: 'https://cms-api.alphasow.dev'
-		]						
-		withEnv([
-			"APP_ARTIFACT_ID=${dockerComposeEnv.appArtifactId}",
-			"APP_VERSION=${dockerComposeEnv.appVersion}",
-			"HOST_URL=${dockerComposeEnv.hostUrl}"
-		]) {
-			sh 'docker compose up -d'
-		}
+		sh 'docker compose up -d'
 	}
 }
