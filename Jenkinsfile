@@ -12,7 +12,7 @@ node {
 			],
     	]
 		withVault([vaultSecrets: secrets]) {
-			sh 'echo ID=id'
+			sh 'echo ID=$id'
 		}
 	}
 	stage('SonarQube Analysis') {
