@@ -5,7 +5,7 @@ node {
 	stage('Vault key') {
 		def secrets = [
 			[
-				path: 'secret/headless-cms', 
+				path: 'secret/ci-cd', 
 				engineVersion: 1, secretValues: [
 					[envVar: 'APP_ARTIFACT_ID', vaultKey: 'APP_ARTIFACT_ID'],
 					[envVar: 'APP_VERSION', vaultKey: 'APP_VERSION'],
@@ -13,10 +13,7 @@ node {
 				]
 			],
     	]
-    	def configuration = [
-                         vaultCredentialId: 'vault-token',
-                         engineVersion: 1]
-		withVault([configuration: configuration,vaultSecrets: secrets]) {
+		withVault([vaultSecrets: secrets]) {
 			sh 'echo APP_ARTIFACT_ID=$APP_ARTIFACT_ID'
 			sh 'echo APP_VERSION=$APP_VERSION'
 			sh 'echo HOST_URL=$HOST_URL'
