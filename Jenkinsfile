@@ -7,7 +7,7 @@ node {
 			[
 				path: 'secret/ci-cd', 
 				engineVersion: 2, secretValues: [
-					[envVar: 'id', vaultKey: 'value_one']
+					[envVar: 'id', vaultKey: 'id']
 				]
 			],
     	]
