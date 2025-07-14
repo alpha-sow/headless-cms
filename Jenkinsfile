@@ -23,16 +23,7 @@ node {
 				]
 			],
     	]
-		withVault([vaultSecrets: secrets]) {
-			script {
-				env.APP_ARTIFACT_ID=APP_ARTIFACT_ID
-				env.APP_VERSION=APP_VERSION
-				env.HOST_URL=HOST_URL
-				env.DB_USERNAME=DB_USERNAME
-				env.DB_PASSWORD=DB_PASSWORD
-				
-			}
-		}
+		withVault([vaultSecrets: secrets]) {}
 	}
 	stage('SonarQube Analysis') {
 		def mvn = tool 'jenkins-maven';
