@@ -1,0 +1,72 @@
+name: 💬 General Issue
+description: Report any other issues or ask questions about the Headless CMS
+title: "[GENERAL] "
+labels: ["question", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reaching out! Use this template for general questions, discussions, or issues that don't fit the bug report or feature request categories.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your issue
+      options:
+        - label: I have searched existing issues to ensure this hasn't been discussed already
+          required: true
+        - label: I have read the documentation and README
+          required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      description: What type of issue is this?
+      options:
+        - Question about usage
+        - Documentation improvement
+        - Setup/Installation help
+        - Performance question
+        - Security concern
+        - Architecture discussion
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe your question or issue in detail
+      placeholder: Describe your question, concern, or suggestion...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide any relevant context or background information
+      placeholder: |
+        - What are you trying to achieve?
+        - What have you tried so far?
+        - Any specific requirements or constraints?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment (if applicable)
+      description: If relevant, provide information about your environment
+      placeholder: |
+        - OS: [e.g., macOS 14.0, Ubuntu 20.04, Windows 11]
+        - Java Version: [e.g., OpenJDK 21]
+        - Node.js Version: [e.g., 20.10.0]
+        - Docker Version: [e.g., 24.0.7]
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Add any other relevant information, links, or resources

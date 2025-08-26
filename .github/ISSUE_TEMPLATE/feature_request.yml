@@ -1,0 +1,109 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for the Headless CMS
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! Please provide as much detail as possible to help us understand your request.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your feature request
+      options:
+        - label: I have searched existing issues to ensure this feature hasn't been requested already
+          required: true
+        - label: I have checked the documentation to confirm this feature doesn't already exist
+          required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the system should this feature affect?
+      options:
+        - Backend (Spring Boot API)
+        - Frontend (Vue.js UI)
+        - Authentication (JWT)
+        - User Management
+        - API Documentation
+        - Database Schema
+        - Docker/Deployment
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve my workflow
+        - High - Critical for my use case
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: Is your feature request related to a problem? Please describe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: A clear and concise description of what you want to happen...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: Describe any alternative solutions or features you've considered...
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: Describe how you would use this feature
+      placeholder: |
+        Example scenario:
+        1. As a [role], I want to [action]
+        2. So that I can [benefit]
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What specific functionality should this feature provide?
+      placeholder: |
+        - [ ] Should do X
+        - [ ] Should support Y
+        - [ ] Should integrate with Z
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups or Examples
+      description: If applicable, provide mockups, screenshots, or examples of similar features
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, links, or resources about the feature request here
